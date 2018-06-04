@@ -1,0 +1,70 @@
+{
+  "applicationId": "test_ucb_domain",
+  "totalSize": 900,
+  "domains": [
+    {
+      "domainId": "multi",
+      "domainType": "MultiLayerUCB",
+      "description": "",
+      "default": true
+    }
+  ],
+  "layers": [
+    {
+      "layerId": "L1",
+      "description": "第一层",
+      "policies": [
+        {
+          "name": "E1",
+          "param": {
+            "test2": 2
+          }
+        },
+        {
+          "name": "E2",
+          "param": {
+            "test3": 3
+          }
+        },
+        {
+          "name": "E3",
+          "default": true,
+          "param": {
+            "test3": 4
+          }
+        },
+        {
+          "name": "E4",
+          "param": {
+            "test3": 5
+          }
+        }
+      ]
+    },
+    {
+      "layerId": "L2",
+      "description": "第二层",
+      "policies": [
+        {
+          "name": "F1",
+          "param": {
+            "test2": 2
+          }
+        },
+        {
+          "name": "F2",
+          "size": 400,
+          "param": {}
+        },
+        {
+          "name": "F3",
+          "size": -1,
+          "default": true,
+          "param": {
+            "test3": 3
+          }
+        }
+      ]
+    }
+  ]
+}
