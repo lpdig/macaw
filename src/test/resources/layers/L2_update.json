@@ -1,0 +1,16 @@
+[
+  {
+      "policyName": "F1",
+      "total": 100,
+      "successes": 50
+  },{
+    "policyName": "F2",
+    "total": 100,
+    "successes" : 60
+  },
+  {
+    "policyName": "F3",
+    "total": 1000,
+    "successes": 600
+  }
+]

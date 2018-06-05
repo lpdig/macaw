@@ -1,0 +1,83 @@
+{
+  "applicationId": "test_hash_domain",
+  "totalSize": 1000,
+  "domains": [
+    {
+      "domainId": "multi",
+      "domainType": "MultiLayerHash",
+      "description": "",
+      "default": true
+    },
+    {
+      "domainId": "fix",
+      "domainType": "FixedGroup",
+      "description": "Old Config No.0",
+      "ruleExpression": "_ < 3000"
+    }
+  ],
+  "layers": [
+    {
+      "layerId": "L1",
+      "description": "第一层",
+      "policies": [
+        {
+          "domainIds": ["fix"],
+          "name": "E1",
+          "param": {
+            "test2": 2
+          }
+        },
+        {
+          "domainIds":["multi"],
+          "name": "E2",
+          "size": 300,
+          "param": {
+            "test3": 3
+          }
+        },
+        {
+          "name": "E3",
+          "default": true,
+          "param": {
+            "test3": 4
+          }
+        },
+        {
+          "name": "E4",
+          "size": 200,
+          "param": {
+            "test3": 5
+          }
+        }
+      ]
+    },
+    {
+      "layerId": "L2",
+      "description": "第二层",
+      "policies": [
+        {
+          "domainIds": ["fix"],
+          "name": "F1",
+          "param": {
+            "test2": 2
+          }
+        },
+        {
+
+          "domainIds": ["multi"],
+          "name": "F2",
+          "size": 400,
+          "param": {}
+        },
+        {
+          "name": "F3",
+          "size": -1,
+          "default": true,
+          "param": {
+            "test3": 3
+          }
+        }
+      ]
+    }
+  ]
+}
