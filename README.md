@@ -92,12 +92,14 @@ ab_test.json
     {
       "domainId": "multi",
       "domainType": "MultiLayerHash",
+      "ruleStrategy": "Hash",
       "description": "",
       "default": true
     },
     {
       "domainId": "fix",
       "domainType": "FixedGroup",
+      "ruleStrategy": "ExpressionBase",
       "description": "Old Config No.0",
       "ruleExpression": "_ < 3000"
     }
