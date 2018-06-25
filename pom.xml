@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>macaw</artifactId>
     <groupId>com.liepin</groupId>
-    <version>0.1.2-SNAPSHOT</version>
+    <version>0.1.2</version>
 
     <name>macaw</name>
     <url>https://github.com/lpdig/macaw</url>
@@ -148,7 +148,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.5</version>
+                        <version>1.6</version>
                         <executions>
                             <execution>
                                 <phase>verify</phase>
@@ -176,7 +176,5 @@
             </distributionManagement>
         </profile>
     </profiles>
-
-
 
 </project>
