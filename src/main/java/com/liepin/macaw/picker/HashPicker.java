@@ -90,7 +90,8 @@ public class HashPicker<T extends IHashAble> implements IDataPicker{
         if (bucketNum == 0) return this;
         Range<Integer> buckets = Range.closed(blankIndex, blankIndex + bucketNum - 1);
         if (buckets.upperEndpoint() >= capacity) {
-            throw new ConfigException("添加的桶数已经超过总量！");
+            throw new ConfigException(new StringBuilder("添加的桶数已经超过总量！object:").append(object.toString()).append(", 总桶数:").append(capacity)
+                .append(", 当前数量:").append(buckets.upperEndpoint()).toString());
         }
         objects.add(object);
         bucketRanges.add(buckets);

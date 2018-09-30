@@ -13,12 +13,12 @@ public class ExpressionBasedPicker<T extends IExpressionBase> implements IDataPi
     public ExpressionBasedPicker(List<T> ruleBases) {
         this.ruleBases = new ArrayList<>();
         for (T ruleBase : ruleBases) {
-            if (ruleBase.getExpression() != null) {
-                this.ruleBases.add(ruleBase);
-            }
             if (ruleBase.isDefault()) {
                 defaultRuleBase = ruleBase;
+            } else if (ruleBase.getExpression() != null) {
+                this.ruleBases.add(ruleBase);
             }
+
         }
     }
 
@@ -30,6 +30,10 @@ public class ExpressionBasedPicker<T extends IExpressionBase> implements IDataPi
             }
         }
         return defaultRuleBase;
+    }
+
+    public boolean hasDefault(){
+        return defaultRuleBase != null;
     }
 
 }

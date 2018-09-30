@@ -2,6 +2,7 @@ package com.liepin.macaw;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.liepin.macaw.enums.DomainTypeEnum;
 import com.liepin.macaw.enums.RuleStrategyEnum;
 import com.liepin.macaw.exception.ConfigException;
 import com.liepin.macaw.model.*;
@@ -51,8 +52,10 @@ public class ExperimentApp {
      * */
     public void putDomains(List<Domain> domains) throws ConfigException {
         domainMap = Maps.newHashMap();
-        for (Domain domain : domains) {
-            putDomain(domain);
+        if (domains != null) {
+            for (Domain domain : domains) {
+                putDomain(domain);
+            }
         }
     }
 
@@ -61,9 +64,6 @@ public class ExperimentApp {
      * @param domain
      * */
     public void putDomain(Domain domain) throws ConfigException {
-        if (domain.isDefault()) {
-            domain.setSize(-1);
-        }
         domainMap.put(domain.getDomainId(), new DomainAgent(domain, audienceDefinition, params));
     }
 
@@ -113,24 +113,40 @@ public class ExperimentApp {
      *
      * */
     public void init() throws ConfigException {
-        int size = totalSize == null ? 100 : totalSize <= 0 ? 100 : totalSize;
 
+        int size = totalSize == null ? 100 : totalSize <= 0 ? 100 : totalSize;
         List<DomainAgent> ruleDomains = Lists.newArrayList();
         List<DomainAgent> hashDomains = Lists.newArrayList();
+        if (domainMap.values().size() == 0) {
+            putDomain(newDefaultDomain(size));
+        }
         for (DomainAgent domain : domainMap.values()) {
             for (LayerAgent layer : layerMap.values()) {
                 domain.addLayer(layer);
             }
             List<RuleStrategyEnum> strategyEnums = domain.getRuleStrategy();
-            if (strategyEnums.contains(RuleStrategyEnum.Hash)) {
+            if (strategyEnums != null && strategyEnums.size() > 0) {
+                if (strategyEnums.contains(RuleStrategyEnum.Hash)) {
+                    hashDomains.add(domain);
+                }
+                if (strategyEnums.contains(RuleStrategyEnum.ExpressionBase)) {
+                    ruleDomains.add(domain);
+                }
+            } else {
                 hashDomains.add(domain);
             }
-            if (strategyEnums.contains(RuleStrategyEnum.ExpressionBase)) {
-                ruleDomains.add(domain);
+        }
+        if (hashDomains.size() > 0) {
+            domainHashPicker = DataPickers.newHashPicker(size, applicationId, hashDomains, audienceDefinition);
+        }
+        if (ruleDomains.size() > 0) {
+            ruleBasedPicker = new ExpressionBasedPicker<>(ruleDomains);
+            if (domainHashPicker == null) {
+                if (!ruleBasedPicker.hasDefault()) {
+                    throw new ConfigException("如果只使用基于规则的流量分配方法，请设置一个默认Domain");
+                }
             }
         }
-        domainHashPicker = DataPickers.newHashPicker(size, applicationId, hashDomains, audienceDefinition);
-        ruleBasedPicker = new ExpressionBasedPicker<>(ruleDomains);
         // 先初始化domainHashPicker 然后初始化各个domain
         for (DomainAgent domain : domainMap.values()) {
             domain.init();
@@ -145,8 +161,10 @@ public class ExperimentApp {
      * */
     public ABPolicyModel getPolicy(Object audience) {
         ABPolicyModel abPolicy = new ABPolicyModel();
-
-        DomainAgent userDomain = ruleBasedPicker.pick(audience);
+        DomainAgent userDomain = null;
+        if (ruleBasedPicker != null) {
+            userDomain = ruleBasedPicker.pick(audience);
+        }
         if (userDomain == null){
             userDomain = domainHashPicker.pick(audience);
         }
@@ -191,6 +209,15 @@ public class ExperimentApp {
     public void setAudienceDefinition(List<AudienceFeature> audienceFeatures) {
         this.audienceDefinition = new AudienceDefinition();
         audienceDefinition.setFeatures(audienceFeatures);
+    }
+
+    private Domain newDefaultDomain(int size) throws ConfigException {
+        Domain domain = new Domain();
+        domain.setDomainId("default_domain");
+        domain.setDefault(true);
+        domain.setDomainType(DomainTypeEnum.MultiLayerHash);
+        domain.setSize(size);
+        return domain;
     }
 
     public static class Builder{
