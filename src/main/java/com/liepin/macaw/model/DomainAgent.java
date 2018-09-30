@@ -77,7 +77,7 @@ public class DomainAgent implements IHashAble, IExpressionBase {
                 .append(" ，域：").append(domain.getDomainId()).append(" 没有配置实验策略！").toString()
             );
         }
-        layerPolicyMap.put(layer.getLayerId(), layer.getPoliciesByDomain(this));
+        layerPolicyMap.put(layer.getLayerId(), policies);
     }
 
 

@@ -114,6 +114,33 @@ public class ExperimentAppTest {
     }
 
     @Test
+    public void testRuleExpressionSplit(){
+        try {
+            ExperimentApp app = loadExperimentApp("test_rule_expression_split.json", null);
+            PolicyCounter policyCounter = countPolicies(app);
+            System.out.println(JSONObject.toJSONString(policyCounter));
+
+            Assert.assertEquals(Integer.valueOf(policyCounter.getPolicyCount("L1origin")), Integer.valueOf(1990));
+            Assert.assertEquals(Integer.valueOf(policyCounter.getPolicyCount("L1newPolicy3")), Integer.valueOf(2047));
+        } catch (Exception e) {
+            Assert.assertTrue(e.getMessage(), false);
+        }
+    }
+
+    @Test
+    public void testNoDomainConfig(){
+        try {
+            ExperimentApp app = loadExperimentApp("test_no_domain_config.json", null);
+            PolicyCounter policyCounter = countPolicies(app);
+            Assert.assertEquals(Integer.valueOf(policyCounter.getPolicyCount("L1origin")), Integer.valueOf(1990));
+            Assert.assertEquals(Integer.valueOf(policyCounter.getPolicyCount("L1newPolicy3")), Integer.valueOf(2047));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.assertTrue(e.getMessage(), false);
+        }
+    }
+
+    @Test
     public void testUpdateConfig(){
         try {
             ExperimentApp app = loadExperimentApp("test_hash_domain.json", Lists.<String>newArrayList("L1", "L2"));

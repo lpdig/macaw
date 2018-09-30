@@ -1,0 +1,58 @@
+{  "applicationId": "ab_test_application",
+
+  "layers": [
+    {
+      "layerId": "L1",
+      "description": "第一层",
+      "policies": [
+        {
+          "name": "L1origin",
+          "size": 20,
+          "param": {
+            "url": "url1"
+          }
+        },
+        {
+          "name": "L1newPolicy1",
+          "size": 20,
+          "param": {
+            "url": "newUrl1"
+          }
+        },
+        {
+          "name": "L1newPolicy2",
+          "default": true,
+          "param": {
+            "url": "newUrl2"
+          }
+        },
+        {
+          "name": "L1newPolicy3",
+          "size": 20,
+          "param": {
+            "url": "newUrl3"
+          }
+        }
+      ]
+    },{
+      "layerId": "L2",
+      "description": "第二层",
+      "policies": [
+        {
+          "name": "L2origin",
+          "size":50,
+          "param": {
+            "url": "url2_1"
+          }
+        },
+        {
+          "name": "L2newPolicy",
+          "size": 50,
+          "param": {
+            "url": "newUrl2_2"
+          }
+        }
+      ]
+    }
+  ]
+}
