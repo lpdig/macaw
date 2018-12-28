@@ -94,7 +94,20 @@ public class ExperimentAppTest {
             e.printStackTrace();
         }
     }
+    @Test
+    public void testRuleBase(){
+        try {
+            ExperimentApp app = loadExperimentApp("test_rule_base.json", Lists.<String>newArrayList("L1", "L2"));
+//            Map<String, Object> objectMap = Maps.newHashMap();
+//            objectMap.put("age", 29);
 
+            ABPolicyModel model = app.getPolicy(300);
+            System.out.println(JSONObject.toJSONString(model));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.assertTrue(e.getMessage(), false);
+        }
+    }
 
     @Test
     public void testUCBApp(){

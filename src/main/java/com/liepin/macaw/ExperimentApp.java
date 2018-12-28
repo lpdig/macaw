@@ -177,7 +177,10 @@ public class ExperimentApp {
     }
 
     public Policy getPolicy(String layerId, Object audience) {
-        DomainAgent userDomain = ruleBasedPicker.pick(audience);
+        DomainAgent userDomain = null;
+        if (ruleBasedPicker != null) {
+            userDomain = ruleBasedPicker.pick(audience);
+        }
         if (userDomain == null){
             userDomain = domainHashPicker.pick(audience);
         }
