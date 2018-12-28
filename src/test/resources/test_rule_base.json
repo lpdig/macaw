@@ -1,0 +1,33 @@
+{
+  "applicationId": "bole_filter_ab_test",
+  "description": "伯乐推荐职位过滤分流",
+  "totalSize": 1000,
+  "domains": [
+    {
+      "domainId": "uniqueDomain",
+      "size": 1000,
+      "ruleStrategy": [
+        "Hash"
+      ],
+      "domainType": "MultiLayerHash",
+      "description": "默认域",
+      "default": true
+    }
+  ],
+  "layers": [
+    {
+      "layerId": "L1",
+      "description": "第一层职位分流",
+      "policies": [
+        {
+          "name": "new",
+          "size": 1000,
+          "default": true,
+          "param": {
+            "strategy": "new"
+          }
+        }
+      ]
+    }
+  ]
+}
